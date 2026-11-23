@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function getPrinterIcon(name) {
+    if (!name) return ICONS.printer;
     const lowerName = name.toLowerCase();
     if (lowerName.includes('rh') || lowerName.includes('recursos')) return ICONS.users;
     if (lowerName.includes('faturamento') || lowerName.includes('financeiro')) return ICONS.money;
