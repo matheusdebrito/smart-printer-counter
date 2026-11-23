@@ -1,4 +1,4 @@
-/* Smart Printer Counter - Professional Styles */
+/* Smart Printer Counter - Corporate Professional Styles */
 
 /* Reset & Base */
 * {
@@ -8,8 +8,8 @@
 }
 
 :root {
-  /* Color palette - professional blue/gray theme */
-  --primary: #1e40af;
+  /* Corporate color palette - navy/slate theme */
+  --primary: #1e3a8a;
   --primary-light: #3b82f6;
   --primary-hover: #1e3a8a;
   --primary-bg: #eff6ff;
@@ -115,6 +115,27 @@ body {
 }
 
 /* ============================================
+   ICON SYSTEM - Inline SVG Icons
+   ============================================ */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-sm { font-size: 1rem; }
+.icon-md { font-size: 1.25rem; }
+.icon-lg { font-size: 1.5rem; }
+
+/* ============================================
    HEADER
    ============================================ */
 .header {
@@ -146,14 +167,17 @@ body {
 .header-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  background: var(--primary);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-inverse);
-  font-size: 1.25rem;
   box-shadow: var(--shadow);
+}
+
+.header-icon .icon {
+  color: var(--text-inverse);
 }
 
 .header h1 {
@@ -389,7 +413,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   flex-shrink: 0;
   color: var(--primary);
 }
@@ -979,7 +1002,6 @@ body {
   .printer-icon {
     width: 40px;
     height: 40px;
-    font-size: 1.25rem;
   }
 
   .printer-name {

@@ -26,15 +26,69 @@ document.addEventListener('DOMContentLoaded', () => {
     toastContainer: document.getElementById('toast-container')
   };
 
+  // SVG Icons
+  const ICONS = {
+    printer: `<svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="14" rx="2"/><rect x="6" y="16" width="12" height="6" rx="1"/><line x1="6" y1="8" x2="18" y2="8"/></svg>`,
+    users: `<svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+    money: `<svg class="icon icon-lg" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+    document: `<svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+    heart: `<svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    package: `<svg class="icon icon-lg" viewBox="0 0 24 24"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+    coffee: `<svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+    building: `<svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="3" y="21" width="18" height="1" rx="1"/><path d="M5 21V7l9-5 9 5v14"/><path d="M9 21v-8"/><path d="M15 21v-8"/></svg>`,
+    eco: `<svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>`,
+    vip: `<svg class="icon icon-lg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+    info: `<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+    check: `<svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
+    refresh: `<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
+    download: `<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+    spinner: `<svg class="icon icon-md spinner" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="30 100" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></svg>`,
+    empty: `<svg class="icon icon-lg" viewBox="0 0 24 24" style="opacity: 0.3"><rect x="2" y="2" width="20" height="14" rx="2"/><rect x="6" y="16" width="12" height="6" rx="1"/><line x1="6" y1="8" x2="18" y2="8"/></svg>`
+  };
+
+  function getPrinterIcon(name) {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('rh') || lowerName.includes('recursos')) return ICONS.users;
+    if (lowerName.includes('faturamento') || lowerName.includes('financeiro')) return ICONS.money;
+    if (lowerName.includes('laudo') || lowerName.includes('exame')) return ICONS.document;
+    if (lowerName.includes('ergometrico') || lowerName.includes('teste')) return ICONS.heart;
+    if (lowerName.includes('envelopamento') || lowerName.includes('envelope')) return ICONS.package;
+    if (lowerName.includes('copa') || lowerName.includes('cozinha')) return ICONS.coffee;
+    if (lowerName.includes('recepcao') || lowerName.includes('recepc')) return ICONS.building;
+    if (lowerName.includes('barra') || lowerName.includes('prev')) return ICONS.printer;
+    if (lowerName.includes('ultra') || lowerName.includes('eco')) return ICONS.eco;
+    if (lowerName.includes('vip') || lowerName.includes('sala')) return ICONS.vip;
+    return ICONS.printer;
+  }
+
+  function getStatusText(status) {
+    if (status === true) return 'Online';
+    if (status === false) return 'Offline';
+    if (status === null) return 'Verificando...';
+    return 'Desconhecido';
+  }
+
+  function getBadgeClass(status) {
+    if (status === true) return 'online';
+    if (status === false) return 'offline';
+    if (status === null) return 'checking';
+    return 'unknown';
+  }
+
+  function getDotClass(status) {
+    if (status === true) return 'online';
+    if (status === false) return 'offline';
+    if (status === null) return 'checking';
+    return 'unknown';
+  }
+
   // Inicialização
   async function init() {
-    await loadPrinters(true); // Carrega com verificação de acessibilidade
+    await loadPrinters(true);
     setupEventListeners();
-    // Atualiza acessibilidade periodicamente (a cada 2 minutos)
     setInterval(() => loadPrinters(true), 2 * 60 * 1000);
   }
 
-  // Event Listeners
   function setupEventListeners() {
     elements.btnCheckAll.addEventListener('click', checkAllAccessibility);
     elements.btnCollectAll.addEventListener('click', collectAllCounters);
@@ -47,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Carrega lista de impressoras
   async function loadPrinters(checkAccessibility = false) {
     try {
       showLoading(true);
@@ -64,15 +117,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Renderiza grid de impressoras
   function renderPrintersGrid() {
     const { printersGrid } = elements;
     
     if (state.printers.length === 0) {
       printersGrid.innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">🖨️</div>
-          <p>Nenhuma impressora configurada</p>
+          <div class="empty-state-icon">${ICONS.empty}</div>
+          <p class="empty-state-title">Nenhuma impressora configurada</p>
+          <p class="empty-state-message">Adicione impressoras no arquivo de configuração</p>
         </div>
       `;
       return;
@@ -80,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     printersGrid.innerHTML = state.printers.map(printer => createPrinterCard(printer)).join('');
     
-    // Adiciona event listeners aos botões
     state.printers.forEach(printer => {
       const card = document.getElementById(`card-${printer.id}`);
       if (!card) return;
@@ -95,17 +147,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Cria HTML do card da impressora
   function createPrinterCard(printer) {
     const accessible = printer.accessibility?.accessible;
     const statusClass = accessible === true ? 'accessible' : accessible === false ? 'inaccessible' : accessible === null ? 'checking' : '';
-    const badgeClass = accessible === true ? 'online' : accessible === false ? 'offline' : accessible === null ? 'checking' : 'unknown';
-    const badgeText = accessible === true ? 'Online' : accessible === false ? 'Offline' : accessible === null ? 'Verificando...' : 'Desconhecido';
-    const badgeDotClass = accessible === true ? 'online' : accessible === false ? 'offline' : accessible === null ? 'checking' : 'unknown';
+    const badgeClass = getBadgeClass(accessible);
+    const badgeText = getStatusText(accessible);
+    const badgeDotClass = getDotClass(accessible);
     const isCollecting = state.collecting.has(printer.id);
     const isChecking = state.checkingAccessibility.has(printer.id);
-    
-    // Determine printer icon based on name/type
     const printerIcon = getPrinterIcon(printer.name);
     
     return `
@@ -137,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         
         <div class="printer-card-status" id="status-${printer.id}">
-          ${isCollecting ? '<div class="spinner"></div><span>Coletando contador...</span>' : ''}
-          ${isChecking ? '<div class="spinner"></div><span>Verificando acessibilidade...</span>' : ''}
+          ${isCollecting ? ICONS.spinner + '<span>Coletando contador...</span>' : ''}
+          ${isChecking ? ICONS.spinner + '<span>Verificando acessibilidade...</span>' : ''}
         </div>
         
         <div class="printer-card-result" id="result-${printer.id}"></div>
@@ -148,40 +197,24 @@ document.addEventListener('DOMContentLoaded', () => {
                   id="collect-${printer.id}" 
                   ${isCollecting ? 'disabled' : ''}
                   title="Coletar contador desta impressora">
-            📊 Coletar
+            ${ICONS.download} Coletar
           </button>
           <button class="btn btn-secondary btn-check ${isChecking ? 'disabled' : ''}"
                   id="check-${printer.id}"
                   ${isChecking ? 'disabled' : ''}
                   title="Verificar se impressora está acessível">
-            🔄 Verificar
+            ${ICONS.refresh} Verificar
           </button>
           <button class="btn btn-ghost btn-details btn-sm" 
                   id="details-btn-${printer.id}"
                   title="Ver detalhes">
-            ℹ️ Detalhes
+            ${ICONS.info} Detalhes
           </button>
         </div>
       </article>
     `;
   }
 
-  function getPrinterIcon(name) {
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes('rh') || lowerName.includes('recursos')) return '👥';
-    if (lowerName.includes('faturamento') || lowerName.includes('financeiro')) return '💰';
-    if (lowerName.includes('laudo') || lowerName.includes('exame')) return '📋';
-    if (lowerName.includes('ergometrico') || lowerName.includes('teste')) return '❤️';
-    if (lowerName.includes('envelopamento') || lowerName.includes('envelope')) return '📦';
-    if (lowerName.includes('copa') || lowerName.includes('cozinha')) return '☕';
-    if (lowerName.includes('recepcao') || lowerName.includes('recepc')) return '🏢';
-    if (lowerName.includes('barra') || lowerName.includes('prev')) return '🖨️';
-    if (lowerName.includes('ultra') || lowerName.includes('eco')) return '🌿';
-    if (lowerName.includes('vip') || lowerName.includes('sala')) return '👑';
-    return '🖨️';
-  }
-
-  // Atualiza barra de status
   function updateStatusBar() {
     const total = state.printers.length;
     const accessible = state.printers.filter(p => p.accessibility?.accessible === true).length;
@@ -190,18 +223,21 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.totalPrinters.textContent = total;
     elements.accessibleCount.textContent = accessible;
     elements.inaccessibleCount.textContent = inaccessible;
+    
+    const accessibleDot = document.querySelector('.status-dot.online');
+    const inaccessibleDot = document.querySelector('.status-dot.offline');
+    if (accessibleDot) accessibleDot.style.background = accessible > 0 ? 'var(--success)' : 'var(--border)';
+    if (inaccessibleDot) inaccessibleDot.style.background = inaccessible > 0 ? 'var(--danger)' : 'var(--border)';
   }
 
-  // Atualiza horário da última verificação
   function updateLastCheckTime() {
     const now = new Date();
     elements.lastCheck.textContent = `Última verificação: ${now.toLocaleTimeString('pt-BR')}`;
   }
 
-  // Verifica acessibilidade de todas
   async function checkAllAccessibility() {
     elements.btnCheckAll.disabled = true;
-    elements.btnCheckAll.textContent = '⏳ Verificando...';
+    elements.btnCheckAll.innerHTML = `${ICONS.spinner} Verificando...`;
     
     try {
       const data = await api.checkAllPrintersAccessibility(true);
@@ -214,18 +250,16 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Erro ao verificar acessibilidade: ' + error.message, 'error');
     } finally {
       elements.btnCheckAll.disabled = false;
-      elements.btnCheckAll.textContent = '🔄 Reverificar Todas';
+      elements.btnCheckAll.innerHTML = `${ICONS.refresh} Reverificar Todas`;
     }
   }
 
-  // Verifica acessibilidade de uma impressora
   async function checkSingleAccessibility(printerId) {
     state.checkingAccessibility.add(printerId);
     updatePrinterCardStatus(printerId);
     
     try {
       const data = await api.checkPrinterAccessibility(printerId, true);
-      // Atualiza no estado
       const idx = state.printers.findIndex(p => p.id === printerId);
       if (idx >= 0) {
         state.printers[idx].accessibility = data;
@@ -242,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Coleta contador de uma impressora
   async function collectSingleCounter(printerId) {
     state.collecting.add(printerId);
     updatePrinterCardStatus(printerId);
@@ -251,13 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await api.collectSingleCounter(printerId);
       const result = data.result;
       
-      // Mostra resultado no card
       showPrinterResult(printerId, result);
       
       if (result.success) {
-        showToast(`✅ ${result.printerName}: Contador coletado com sucesso`, 'success');
+        showToast(`${result.printerName}: Contador coletado com sucesso`, 'success');
       } else {
-        showToast(`❌ ${result.printerName}: ${result.error}`, 'error');
+        showToast(`${result.printerName}: ${result.error}`, 'error');
       }
     } catch (error) {
       showToast('Erro na coleta: ' + error.message, 'error');
@@ -268,12 +300,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Coleta contadores de todas
   async function collectAllCounters() {
     elements.btnCollectAll.disabled = true;
-    elements.btnCollectAll.textContent = '⏳ Coletando...';
+    elements.btnCollectAll.innerHTML = `${ICONS.spinner} Coletando...`;
     
-    // Desabilita botões individuais
     state.printers.forEach(p => state.collecting.add(p.id));
     renderPrintersGrid();
     
@@ -281,10 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await api.collectCounters();
       const { results, summary } = data;
       
-      // Atualiza resultados nos cards
       results.forEach(result => showPrinterResult(result.printerId, result));
       
-      // Toast com resumo
       const msg = `Coleta finalizada: ${summary.success} sucesso, ${summary.error} erro (${summary.durationMs}ms)`;
       showToast(msg, summary.error > 0 ? 'warning' : 'success');
       
@@ -292,13 +320,12 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Erro na coleta em lote: ' + error.message, 'error');
     } finally {
       elements.btnCollectAll.disabled = false;
-      elements.btnCollectAll.textContent = '📊 Coletar Todas';
+      elements.btnCollectAll.innerHTML = `${ICONS.download} Coletar Todas`;
       state.printers.forEach(p => state.collecting.delete(p.id));
       renderPrintersGrid();
     }
   }
 
-  // Mostra resultado no card da impressora
   function showPrinterResult(printerId, result) {
     const resultEl = document.getElementById(`result-${printerId}`);
     if (!resultEl) return;
@@ -308,26 +335,36 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (result.success) {
       const fileName = result.filePath ? result.filePath.split('/').pop().split('\\').pop() : 'arquivo';
-      resultEl.className = 'printer-card-last-result visible success';
+      resultEl.className = 'printer-card-result visible success';
       resultEl.innerHTML = `
-        <strong>✅ Sucesso</strong><br>
-        Arquivo: <code>${escapeHtml(fileName)}</code><br>
-        Tipo: ${result.fileType?.toUpperCase() || 'N/A'} | ${formatFileSize(result.fileSize)}<br>
-        ${new Date(result.collectedAt).toLocaleString('pt-BR')}
+        <span class="result-icon">${ICONS.check}</span>
+        <div class="result-content">
+          <span class="result-title">Sucesso</span>
+          <div class="result-meta">
+            <code>${escapeHtml(fileName)}</code>
+            <span>${result.fileType?.toUpperCase() || 'N/A'}</span>
+            <span>${formatFileSize(result.fileSize)}</span>
+            <span>${new Date(result.collectedAt).toLocaleString('pt-BR')}</span>
+          </div>
+        </div>
       `;
     } else {
-      resultEl.className = 'printer-card-last-result visible error';
+      resultEl.className = 'printer-card-result visible error';
       resultEl.innerHTML = `
-        <strong>❌ Erro</strong><br>
-        ${escapeHtml(result.error || 'Erro desconhecido')}<br>
-        <button class="btn btn-sm btn-primary" onclick="collectSingleCounter('${printerId}')" style="margin-top: 0.5rem;">
-          🔄 Tentar Novamente
+        <span class="result-icon">${ICONS.refresh}</span>
+        <div class="result-content">
+          <span class="result-title">Erro</span>
+          <div class="result-meta">
+            <span>${escapeHtml(result.error || 'Erro desconhecido')}</span>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-primary retry-btn" onclick="collectSingleCounter('${printerId}')">
+          ${ICONS.refresh} Tentar Novamente
         </button>
       `;
     }
   }
 
-  // Atualiza status visual do card
   function updatePrinterCardStatus(printerId) {
     const statusEl = document.getElementById(`status-${printerId}`);
     const badgeEl = document.getElementById(`badge-${printerId}`);
@@ -339,9 +376,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (statusEl) {
       if (isCollecting) {
-        statusEl.innerHTML = '<div class="spinner"></div><span>Coletando contador...</span>';
+        statusEl.innerHTML = ICONS.spinner + '<span>Coletando contador...</span>';
       } else if (isChecking) {
-        statusEl.innerHTML = '<div class="spinner"></div><span>Verificando acessibilidade...</span>';
+        statusEl.innerHTML = ICONS.spinner + '<span>Verificando acessibilidade...</span>';
       } else {
         statusEl.innerHTML = '';
       }
@@ -350,25 +387,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (collectBtn) {
       collectBtn.disabled = isCollecting;
       collectBtn.classList.toggle('disabled', isCollecting);
-      collectBtn.textContent = isCollecting ? '⏳ Coletando...' : '📊 Coletar';
+      collectBtn.innerHTML = isCollecting ? `${ICONS.spinner} Coletando...` : `${ICONS.download} Coletar`;
     }
     
     if (checkBtn) {
       checkBtn.disabled = isChecking;
       checkBtn.classList.toggle('disabled', isChecking);
-      checkBtn.textContent = isChecking ? '⏳ Verificando...' : '🔄 Verificar';
+      checkBtn.innerHTML = isChecking ? `${ICONS.spinner} Verificando...` : `${ICONS.refresh} Verificar`;
     }
   }
 
-  // Mostra detalhes da impressora no modal
   function showPrinterDetails(printer) {
     elements.modalTitle.textContent = printer.name;
     
     const accessibility = printer.accessibility;
-    const accText = accessibility?.accessible === true ? '🟢 Acessível' 
-      : accessibility?.accessible === false ? '🔴 Inacessível' 
-      : accessibility?.accessible === null ? '⏳ Verificando...' 
-      : '❓ Não verificado';
+    const accText = accessibility?.accessible === true ? 'Online' 
+      : accessibility?.accessible === false ? 'Offline' 
+      : accessibility?.accessible === null ? 'Verificando...' 
+      : 'Não verificado';
     
     elements.modalBody.innerHTML = `
       <div class="modal-detail-row">
@@ -400,22 +436,21 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="modal-detail-label">Última Verificação</span>
         <span class="modal-detail-value">${new Date(accessibility.checkedAt).toLocaleString('pt-BR')}</span>
       </div>
-      ` : ''}
+` : ''}
     `;
     
     elements.modalFooter.innerHTML = `
       <button class="btn btn-secondary" onclick="checkSingleAccessibility('${printer.id}'); closeModal();">
-        🔄 Verificar Acessibilidade
+        ${ICONS.refresh} Verificar Acessibilidade
       </button>
       <button class="btn btn-primary" onclick="collectSingleCounter('${printer.id}'); closeModal();">
-        📊 Coletar Contador
+        ${ICONS.download} Coletar Contador
       </button>
     `;
     
     openModal();
   }
 
-  // Modal functions
   function openModal() {
     elements.modalOverlay.classList.add('visible');
     document.body.style.overflow = 'hidden';
@@ -426,22 +461,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   }
 
-  // Toast notifications
   function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     
     const icons = {
-      success: '✅',
-      error: '❌',
-      warning: '⚠️',
-      info: 'ℹ️'
+      success: ICONS.check,
+      error: ICONS.refresh,
+      warning: ICONS.refresh,
+      info: ICONS.info
     };
     
     toast.innerHTML = `
       <span class="toast-icon">${icons[type] || icons.info}</span>
-      <span class="toast-message">${escapeHtml(message)}</span>
-      <button class="toast-close" aria-label="Fechar">×</button>
+      <div class="toast-content">
+        <span class="toast-message">${escapeHtml(message)}</span>
+      </div>
+      <button class="toast-close" aria-label="Fechar">&times;</button>
     `;
     
     toast.querySelector('.toast-close').addEventListener('click', () => {
@@ -451,7 +487,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     elements.toastContainer.appendChild(toast);
     
-    // Auto remove after 5 seconds
     setTimeout(() => {
       if (toast.parentNode) {
         toast.style.animation = 'slideIn 0.3s ease reverse';
@@ -460,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 5000);
   }
 
-  // Loading overlay
   function showLoading(show) {
     let overlay = document.querySelector('.loading-overlay');
     if (show) {
@@ -469,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.className = 'loading-overlay';
         overlay.innerHTML = `
           <div class="loading-spinner"></div>
-          <span>Carregando...</span>
+          <span class="loading-text">Carregando...</span>
         `;
         document.body.appendChild(overlay);
       }
@@ -478,7 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Utilitários
   function escapeHtml(text) {
     if (text === null || text === undefined) return '';
     return String(text)
@@ -497,10 +530,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
-  // Expõe funções globalmente para onclick inline
   window.collectSingleCounter = collectSingleCounter;
   window.checkSingleAccessibility = checkSingleAccessibility;
 
-  // Inicia
   init();
 });
