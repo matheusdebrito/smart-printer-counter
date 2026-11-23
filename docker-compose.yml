@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: smart-printer-counter
-    # Use host network to access printers on LAN (192.168.x.x) directly
-    network_mode: host
-    # ports not needed with host network (container shares host network stack)
+    # Port mapping for Windows access (Docker Desktop auto-forwards localhost)
+    ports:
+      - "3000:3000"
     volumes:
       # Persist SQLite database
       - ./data:/app/data
@@ -19,11 +19,11 @@ services:
       - PORT=3000
       # Playwright configuration for Docker
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
     restart: unless-stopped
     # Health check
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -44,9 +44,8 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     container_name: smart-printer-counter-dev
-    # Use host network to access printers on LAN (192.168.x.x) directly
-    network_mode: host
-    # ports not needed with host network
+    ports:
+      - "3001:3000"
     volumes:
       - ./data:/app/data
       - ./contadores:/app/contadores
@@ -58,7 +57,7 @@ services:
       - NODE_ENV=development
       - PORT=3000
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
     command: npm run dev
     profiles:
       - dev
