@@ -98,30 +98,52 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cria HTML do card da impressora
   function createPrinterCard(printer) {
     const accessible = printer.accessibility?.accessible;
-    const statusClass = accessible === true ? 'accessible' : accessible === false ? 'inaccessible' : '';
-    const badgeClass = accessible === true ? 'accessible' : accessible === false ? 'inaccessible' : accessible === null ? 'checking' : 'unknown';
-    const badgeText = accessible === true ? '🟢 Acessível' : accessible === false ? '🔴 Inacessível' : accessible === null ? '⏳ Verificando...' : '❓ Desconhecido';
+    const statusClass = accessible === true ? 'accessible' : accessible === false ? 'inaccessible' : accessible === null ? 'checking' : '';
+    const badgeClass = accessible === true ? 'online' : accessible === false ? 'offline' : accessible === null ? 'checking' : 'unknown';
+    const badgeText = accessible === true ? 'Online' : accessible === false ? 'Offline' : accessible === null ? 'Verificando...' : 'Desconhecido';
+    const badgeDotClass = accessible === true ? 'online' : accessible === false ? 'offline' : accessible === null ? 'checking' : 'unknown';
     const isCollecting = state.collecting.has(printer.id);
     const isChecking = state.checkingAccessibility.has(printer.id);
     
+    // Determine printer icon based on name/type
+    const printerIcon = getPrinterIcon(printer.name);
+    
     return `
       <article class="printer-card ${statusClass}" id="card-${printer.id}">
-        <header class="printer-card-header">
-          <div class="printer-card-title">
-            <span class="printer-card-name">${escapeHtml(printer.name)}</span>
-            <span class="printer-card-ip">${escapeHtml(printer.ip)}</span>
+        <div class="printer-card-header">
+          <div class="printer-card-main">
+            <div class="printer-icon">${printerIcon}</div>
+            <div class="printer-info">
+              <span class="printer-name">${escapeHtml(printer.name)}</span>
+              <div class="printer-meta">
+                <span class="printer-ip">${escapeHtml(printer.ip)}</span>
+                <span class="printer-type">${printer.type?.toUpperCase() || 'PDF'}</span>
+              </div>
+            </div>
           </div>
-          <span class="accessibility-badge ${badgeClass}" id="badge-${printer.id}">${badgeText}</span>
-        </header>
+          <span class="accessibility-badge ${badgeClass}" id="badge-${printer.id}">
+            <span class="dot ${badgeDotClass}"></span>
+            ${badgeText}
+          </span>
+        </div>
+        
+        <div class="printer-card-details" id="details-${printer.id}">
+          ${!isCollecting && !isChecking ? `
+            <div class="detail-item">
+              <span class="detail-label">Tipo</span>
+              <span class="detail-value">${printer.type?.toUpperCase() || 'PDF'}</span>
+            </div>
+          ` : ''}
+        </div>
         
         <div class="printer-card-status" id="status-${printer.id}">
           ${isCollecting ? '<div class="spinner"></div><span>Coletando contador...</span>' : ''}
           ${isChecking ? '<div class="spinner"></div><span>Verificando acessibilidade...</span>' : ''}
         </div>
         
-        <div class="printer-card-last-result" id="result-${printer.id}"></div>
+        <div class="printer-card-result" id="result-${printer.id}"></div>
         
-        <footer class="printer-card-actions">
+        <div class="printer-card-actions">
           <button class="btn btn-primary btn-collect ${isCollecting ? 'disabled' : ''}" 
                   id="collect-${printer.id}" 
                   ${isCollecting ? 'disabled' : ''}
@@ -134,14 +156,29 @@ document.addEventListener('DOMContentLoaded', () => {
                   title="Verificar se impressora está acessível">
             🔄 Verificar
           </button>
-          <button class="btn btn-secondary btn-details btn-sm" 
-                  id="details-${printer.id}"
+          <button class="btn btn-ghost btn-details btn-sm" 
+                  id="details-btn-${printer.id}"
                   title="Ver detalhes">
             ℹ️ Detalhes
           </button>
-        </footer>
+        </div>
       </article>
     `;
+  }
+
+  function getPrinterIcon(name) {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('rh') || lowerName.includes('recursos')) return '👥';
+    if (lowerName.includes('faturamento') || lowerName.includes('financeiro')) return '💰';
+    if (lowerName.includes('laudo') || lowerName.includes('exame')) return '📋';
+    if (lowerName.includes('ergometrico') || lowerName.includes('teste')) return '❤️';
+    if (lowerName.includes('envelopamento') || lowerName.includes('envelope')) return '📦';
+    if (lowerName.includes('copa') || lowerName.includes('cozinha')) return '☕';
+    if (lowerName.includes('recepcao') || lowerName.includes('recepc')) return '🏢';
+    if (lowerName.includes('barra') || lowerName.includes('prev')) return '🖨️';
+    if (lowerName.includes('ultra') || lowerName.includes('eco')) return '🌿';
+    if (lowerName.includes('vip') || lowerName.includes('sala')) return '👑';
+    return '🖨️';
   }
 
   // Atualiza barra de status
