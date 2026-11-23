@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico de Contadores - Smart Printer Counter</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/history.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <a href="/" class="header-back" title="Voltar ao Dashboard">
+        ← Dashboard
+      </a>
+      <h1>📋 Histórico de Contadores</h1>
+      <div class="header-actions">
+        <button id="btn-refresh-history" class="btn btn-secondary">
+          🔄 Atualizar
+        </button>
+        <button id="btn-export-history" class="btn btn-secondary">
+          📥 Exportar CSV
+        </button>
+      </div>
+    </div>
+    <div class="status-bar">
+      <span class="status-item">Total: <strong id="history-total">0</strong></span>
+      <span class="status-item">✅ Sucesso: <strong id="history-success">0</strong></span>
+      <span class="status-item">❌ Erro: <strong id="history-error">0</strong></span>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Filtros -->
+    <section class="filters-panel" id="filters-panel">
+      <div class="filters-row">
+        <div class="filter-group">
+          <label for="filter-printer">Impressora</label>
+          <select id="filter-printer" class="filter-select">
+            <option value="">Todas</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filter-status">Status</label>
+          <select id="filter-status" class="filter-select">
+            <option value="">Todos</option>
+            <option value="success">✅ Sucesso</option>
+            <option value="error">❌ Erro</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filter-start-date">Data Início</label>
+          <input type="date" id="filter-start-date" class="filter-input">
+        </div>
+        <div class="filter-group">
+          <label for="filter-end-date">Data Fim</label>
+          <input type="date" id="filter-end-date" class="filter-input">
+        </div>
+        <div class="filter-group filter-actions">
+          <button id="btn-apply-filters" class="btn btn-primary">Aplicar</button>
+          <button id="btn-clear-filters" class="btn btn-secondary">Limpar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabela de histórico -->
+    <section class="history-table-container">
+      <table class="history-table" id="history-table">
+        <thead>
+          <tr>
+            <th data-sort="collected_at">Data/Hora <span class="sort-icon"></span></th>
+            <th data-sort="printer_name">Impressora <span class="sort-icon"></span></th>
+            <th data-sort="file_type">Tipo <span class="sort-icon"></span></th>
+            <th>Tamanho</th>
+            <th data-sort="status">Status <span class="sort-icon"></span></th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="history-tbody">
+          <!-- Linhas inseridas via JS -->
+        </tbody>
+      </table>
+      
+      <div class="empty-state" id="history-empty" style="display: none;">
+        <div class="empty-state-icon">📋</div>
+        <p>Nenhum registro encontrado</p>
+        <p class="empty-state-hint">Use os filtros ou colete contadores no Dashboard</p>
+      </div>
+    </section>
+
+    <!-- Paginação -->
+    <nav class="pagination" id="pagination" aria-label="Paginação">
+      <button class="btn btn-secondary btn-sm" id="btn-prev-page" disabled>« Anterior</button>
+      <span class="pagination-info" id="pagination-info">Página 1 de 1</span>
+      <button class="btn btn-secondary btn-sm" id="btn-next-page" disabled>Próxima »</button>
+      <div class="pagination-size">
+        <label>Por página:</label>
+        <select id="page-size" class="filter-select">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </nav>
+  </main>
+
+  <!-- Modal de visualização de arquivo -->
+  <div class="modal-overlay" id="file-modal" role="dialog" aria-modal="true" aria-labelledby="file-modal-title">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h2 id="file-modal-title">Visualizar Contador</h2>
+        <button class="modal-close" id="file-modal-close" aria-label="Fechar">×</button>
+      </div>
+      <div class="modal-body" id="file-modal-body">
+        <!-- Iframe ou imagem -->
+      </div>
+      <div class="modal-footer">
+        <a id="file-modal-download" class="btn btn-primary" download>⬇️ Baixar Arquivo</a>
+        <button class="btn btn-secondary" id="file-modal-close-btn">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/history.js"></script>
+</body>
+</html>

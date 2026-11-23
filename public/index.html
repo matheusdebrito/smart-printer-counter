@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Printer Counter - Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1>🖨️ Smart Printer Counter</h1>
+      <div class="header-actions">
+        <button id="btn-check-all" class="btn btn-secondary" title="Verificar acessibilidade de todas">
+          🔄 Reverificar Todas
+        </button>
+        <button id="btn-collect-all" class="btn btn-primary" title="Coletar contadores de todas as impressoras">
+          📊 Coletar Todas
+        </button>
+      </div>
+    </div>
+    <div class="status-bar" id="status-bar">
+      <span class="status-item">Total: <strong id="total-printers">0</strong></span>
+      <span class="status-item">🟢 Acessíveis: <strong id="accessible-count">0</strong></span>
+      <span class="status-item">🔴 Inacessíveis: <strong id="inaccessible-count">0</strong></span>
+      <span class="status-item" id="last-check">Última verificação: --</span>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="printers-grid" id="printers-grid">
+      <!-- Cards das impressoras serão inseridos aqui via JS -->
+    </section>
+  </main>
+
+  <!-- Modal de detalhes/erro -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">Detalhes da Impressora</h2>
+        <button class="modal-close" id="modal-close" aria-label="Fechar">×</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Conteúdo dinâmico -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <!-- Botões dinâmicos -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
