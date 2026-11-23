@@ -1,7 +1,7 @@
 # Smart Printer Counter - Dockerfile
 FROM node:20-alpine
 
-# Install system dependencies for Playwright (Chromium)
+# Install system dependencies for Playwright (Chromium) + build tools for native modules (better-sqlite3)
 RUN apk add --no-cache \
     chromium \
     nss \
@@ -11,7 +11,11 @@ RUN apk add --no-cache \
     ca-certificates \
     ttf-freefont \
     udev \
-    dumb-init
+    dumb-init \
+    # Build tools for native modules
+    make \
+    g++ \
+    python3
 
 # Tell Playwright to use system Chromium
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
@@ -22,8 +26,8 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including native module compilation)
+RUN npm ci --omit=dev
 
 # Copy application code
 COPY . .
