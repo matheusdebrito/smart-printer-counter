@@ -13,6 +13,9 @@ const PROJECT_ROOT = path.join(__dirname, '..', '..');
 // Carrega nomeContador do projeto
 const nomeContador = require(path.join(PROJECT_ROOT, 'impressoras', 'nomeContador'));
 
+// Caminho do Chromium do sistema (instalado via apt no Docker)
+const CHROMIUM_EXECUTABLE_PATH = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium';
+
 /**
  * Executa a coleta de contador para uma impressora específica.
  * @param {string} printerId - ID da impressora (ex: 'rh')
@@ -34,7 +37,11 @@ async function collectPrinterCounter(printerId) {
 
   let browser;
   try {
-    browser = await chromium.launch({ headless: true });
+    // Usa Chromium do sistema (instalado via apt) em vez do bundled do Playwright
+    browser = await chromium.launch({ 
+      headless: true,
+      executablePath: CHROMIUM_EXECUTABLE_PATH
+    });
     
     // Carrega o módulo da impressora dinamicamente (caminho relativo à raiz do projeto)
     const printerModule = require(path.join(PROJECT_ROOT, printer.module));
