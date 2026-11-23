@@ -47,7 +47,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies (including native module compilation)
-RUN npm ci --omit=dev
+# Using npm install instead of npm ci to avoid lockfile sync issues
+RUN npm install --omit=dev
 
 # Copy application code
 COPY . .

@@ -47,7 +47,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install ALL dependencies (including devDependencies for nodemon)
-RUN npm ci
+# Using npm install instead of npm ci to avoid lockfile sync issues
+RUN npm install
 
 # Create data directory for SQLite
 RUN mkdir -p data
