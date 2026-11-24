@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Generated counter files (will be mounted as volume)
+contadores/
+
+# Database (will be mounted as volume)
+data/history.db
+*.sqlite
+*.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+*.md
+docs/
+
+# Test files
+test/
+tests/
+*.test.js
+*.spec.js

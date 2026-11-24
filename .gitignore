@@ -1,1 +1,34 @@
+# Dependencies
 node_modules/
+
+# Generated counter files
+contadores/
+*.pdf
+*.png
+
+# Database
+data/history.db
+*.sqlite
+*.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/

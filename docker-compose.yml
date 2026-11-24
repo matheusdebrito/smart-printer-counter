@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  smart-printer-counter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart-printer-counter
+    # Port mapping for Windows access (Docker Desktop auto-forwards localhost)
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persist SQLite database
+      - ./data:/app/data
+      # Persist generated counter files (PDFs/PNGs)
+      - ./contadores:/app/contadores
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # Playwright configuration for Docker
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
+    restart: unless-stopped
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    # Resource limits (adjust as needed)
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+
+  # Optional: Development service with hot reload
+  smart-printer-counter-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: smart-printer-counter-dev
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./data:/app/data
+      - ./contadores:/app/contadores
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./server.js:/app/server.js
+      - ./package*.json:/app/
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
+    command: npm run dev
+    profiles:
+      - dev
+    restart: "no"
