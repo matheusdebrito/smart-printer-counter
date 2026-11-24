@@ -16,12 +16,12 @@ const printers = [
   {
     id: 'fonte_2_envelopamento',
     name: 'Fonte 2 Envelopamento',
-    ip: '192.168.254.46',
+    ip: '192.168.251.35',
     module: './impressoras/fonte_2_envelopamento',
-    type: 'pdf',
+    type: 'xml',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.46/',
-    counterUrl: 'http://192.168.254.46/'
+    checkUrl: 'http://192.168.251.35/',
+    counterUrl: 'http://192.168.251.35/wcd/system_counter.xml'
   },
   {
     id: 'prev_barra_recepcao_direita',
@@ -46,62 +46,62 @@ const printers = [
   {
     id: 'prev_copa_recepcao',
     name: 'Prev Copa Recepção',
-    ip: '192.168.252.101',
+    ip: '192.168.252.151',
     module: './impressoras/prev_copa_recepcao',
     type: 'png',
     login: {},
-    checkUrl: 'http://192.168.252.101/',
-    counterUrl: 'http://192.168.252.101/'
+    checkUrl: 'http://192.168.252.151/',
+    counterUrl: 'http://192.168.252.151/'
   },
   {
     id: 'fonte_1_laudos',
     name: 'Fonte 1 Laudos',
-    ip: '192.168.254.47',
+    ip: '192.168.254.34',
     module: './impressoras/fonte_1_laudos',
     type: 'pdf',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.47/',
-    counterUrl: 'http://192.168.254.47/'
+    checkUrl: 'http://192.168.254.34/',
+    counterUrl: 'http://192.168.254.34/'
   },
   {
     id: 'prev_barra_recepcao_esquerda',
     name: 'Prev Barra Recepção Esquerda',
-    ip: '192.168.253.64',
+    ip: '192.168.253.150',
     module: './impressoras/prev_barra_recepcao_esquerda',
     type: 'pdf',
     login: {},
-    checkUrl: 'http://192.168.253.64/',
-    counterUrl: 'http://192.168.253.64/'
+    checkUrl: 'http://192.168.253.150/',
+    counterUrl: 'http://192.168.253.150/'
   },
   {
     id: 'fonte_1_teste_ergometrico',
     name: 'Fonte 1 Teste Ergométrico',
-    ip: '192.168.254.48',
+    ip: '192.168.254.42',
     module: './impressoras/fonte_1_teste_ergometrico',
     type: 'pdf',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.48/',
-    counterUrl: 'http://192.168.254.48/'
+    checkUrl: 'http://192.168.254.42/',
+    counterUrl: 'http://192.168.254.42/'
   },
   {
     id: 'fonte_2_ultra_eco',
     name: 'Fonte 2 Ultra Eco',
-    ip: '192.168.254.49',
+    ip: '192.168.251.37',
     module: './impressoras/fonte_2_ultra_eco',
     type: 'pdf',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.49/',
-    counterUrl: 'http://192.168.254.49/'
+    checkUrl: 'http://192.168.251.37/',
+    counterUrl: 'http://192.168.251.37/'
   },
   {
     id: 'fonte_2_envelopamento_2',
     name: 'Fonte 2 Envelopamento 2',
-    ip: '192.168.254.50',
+    ip: '192.168.251.39',
     module: './impressoras/fonte_2_envelopamento_2',
-    type: 'pdf',
+    type: 'xml',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.50/',
-    counterUrl: 'http://192.168.254.50/'
+    checkUrl: 'http://192.168.251.39/',
+    counterUrl: 'http://192.168.251.39/wcd/system_counter.xml'
   },
   {
     id: 'fonte_1_recepcao',
@@ -116,32 +116,32 @@ const printers = [
   {
     id: 'fonte_2_recepcao',
     name: 'Fonte 2 Recepção',
-    ip: '192.168.254.51',
+    ip: '192.168.251.36',
     module: './impressoras/fonte_2_recepcao',
     type: 'pdf',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.51/',
-    counterUrl: 'http://192.168.254.51/'
+    checkUrl: 'http://192.168.251.36/',
+    counterUrl: 'http://192.168.251.36/'
   },
   {
     id: 'fonte_1_recepcao_2_sala_vip',
     name: 'Fonte 1 Recepção 2 Sala VIP',
-    ip: '192.168.254.52',
+    ip: '192.168.254.31',
     module: './impressoras/fonte_1_recepcao_2_sala_vip',
     type: 'pdf',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.52/',
-    counterUrl: 'http://192.168.254.52/'
+    checkUrl: 'http://192.168.254.31/',
+    counterUrl: 'http://192.168.254.31/'
   },
   {
     id: 'faturamento',
     name: 'Faturamento',
-    ip: '192.168.254.53',
+    ip: '192.168.250.10',
     module: './impressoras/faturamento',
     type: 'pdf',
     login: { username: 'administrator', password: '12345678' },
-    checkUrl: 'http://192.168.254.53/',
-    counterUrl: 'http://192.168.254.53/'
+    checkUrl: 'http://192.168.250.10/',
+    counterUrl: 'http://192.168.250.10/'
   }
 ];
 
